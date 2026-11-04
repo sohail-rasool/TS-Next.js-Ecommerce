@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Price } from "@/components/common/price";
 import { Rating } from "@/components/common/rating";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/types";
 
@@ -12,6 +13,8 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product, className }: ProductCardProps) {
+  const isOutOfStock = product.stock <= 0;
+
   return (
     <Link
       href={`/product/${product.slug}`}
@@ -19,12 +22,20 @@ export function ProductCard({ product, className }: ProductCardProps) {
     >
       <div className="relative aspect-square overflow-hidden rounded-[13px] bg-surface sm:rounded-[20px]">
         <Image
-          src={product.image}
+          src={product.images[0]}
           alt={product.title}
           fill
           sizes="(min-width: 768px) 25vw, 200px"
-          className="object-contain transition-transform duration-500 group-hover:scale-105"
+          className={cn(
+            "object-contain transition-transform duration-500 group-hover:scale-105",
+            isOutOfStock && "opacity-50",
+          )}
         />
+        {isOutOfStock && (
+          <Badge className="absolute top-3 left-3 rounded-full bg-black px-3 py-1 text-xs font-medium text-white">
+            Out of stock
+          </Badge>
+        )}
       </div>
       <div className="flex flex-col gap-1 sm:gap-2">
         <h3 className="line-clamp-1 text-base font-bold sm:text-xl">
