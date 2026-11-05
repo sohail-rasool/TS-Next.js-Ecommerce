@@ -24,12 +24,15 @@ model Product {
   numReviews    Int      @default(0)
   /// Units available. 0 means out of stock.
   stock         Int      @default(0)
+  /// Units sold. Used to rank "Top Selling".
+  sold          Int      @default(0)
   createdAt     DateTime @default(now()) @db.Timestamp(6)
   updatedAt     DateTime @updatedAt
 
   reviews Review[]
 
   @@index([createdAt])
+  @@index([sold])
 }
 
 model Review {
@@ -48,17 +51,21 @@ model Review {
 }
 
 model DressStyle {
-  id    String @id @default(uuid()) @db.Uuid
-  title String
-  slug  String @unique
-  image String
+  id        String @id @default(uuid()) @db.Uuid
+  title     String
+  slug      String @unique
+  image     String
+  /// Display order on the homepage grid (ascending).
+  sortOrder Int    @default(0)
 }
 
 model Brand {
-  id     String @id @default(uuid()) @db.Uuid
-  name   String @unique
-  logo   String
+  id        String @id @default(uuid()) @db.Uuid
+  name      String @unique
+  logo      String
   /// Intrinsic logo size, needed by next/image.
-  width  Int
-  height Int
+  width     Int
+  height    Int
+  /// Display order in the brands bar (ascending).
+  sortOrder Int    @default(0)
 }

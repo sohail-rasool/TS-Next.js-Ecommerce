@@ -4,13 +4,9 @@ import { DressStyleGrid } from "@/components/home/dress-style-grid";
 import { Hero } from "@/components/home/hero";
 import { ProductSection } from "@/components/home/product-section";
 import { ReviewsCarousel } from "@/components/home/reviews-carousel";
-import {
-  getBrands,
-  getDressStyles,
-  getNewArrivals,
-  getReviews,
-  getTopSelling,
-} from "@/lib/data";
+import { getBrands, getDressStyles } from "@/lib/queries/catalog";
+import { getNewArrivals, getTopSelling } from "@/lib/queries/products";
+import { getFeaturedReviews } from "@/lib/queries/reviews";
 
 export default async function Home() {
   const [brands, newArrivals, topSelling, dressStyles, reviews] =
@@ -19,7 +15,7 @@ export default async function Home() {
       getNewArrivals(),
       getTopSelling(),
       getDressStyles(),
-      getReviews(),
+      getFeaturedReviews(),
     ]);
 
   return (
